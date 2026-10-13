@@ -1,0 +1,77 @@
+[{
+  "_id": {
+    "$oid": "6ab3c7c7fdc0eb1be0f0d56b"
+  },
+  "user_id": {
+    "$oid": "6ab15312e18e6aa15d5d53e8"
+  },
+  "title": "Data structures",
+  "prompt": "Write a short essay on the importance of data structures.",
+  "model": "fast",
+  "temperature": 0.7,
+  "max_output_tokens": 256,
+  "response": "**The Architecture of Efficiency: The Importance of Data Structures**\n\nAt the heart of computer science lies a fundamental truth: software is about processing information, and information must be organized to be useful. While algorithms get much of the glory for making software smart, data structures are the unsung heroes that make software fast and scalable. In essence, data structures are specialized formats for organizing, processing, retrieving, and storing data. Without them, modern computing as we know it would grind to a halt.\n\nTo understand their importance, one must look at the sheer volume of data in the modern world. Millions of users search the web, stream videos, and execute financial transactions simultaneously. If a database stored this information in a giant, unorganized pile, finding a single piece of data would require checking every single item—a process that would take hours, even for a supercomputer. Data structures solve this problem by imposing order. By arranging data logically—such as in arrays, linked lists, trees, or graphs—they allow computers to access and manipulate information in fractions of a millisecond.\n\nDifferent problems require different structural solutions. If a program needs to process tasks in the exact order they arrive, a First-In, First-Out (FIFO) **queue",
+  "created_at": {
+    "$date": "2026-09-23T12:36:23.785Z"
+  },
+  "executed_at": {
+    "$date": "2026-09-23T12:36:26.383Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6ab498f9b879a37617217314"
+  },
+  "user_id": {
+    "$oid": "6ab15312e18e6aa15d5d53e8"
+  },
+  "title": "Data structures",
+  "prompt": "create data structure notes",
+  "model": "fast",
+  "temperature": 0.7,
+  "max_output_tokens": 1000,
+  "response": "Here is a comprehensive, structured set of notes on **Data Structures**. These notes cover the core concepts, classifications, and operations essential for computer science, software engineering, and coding interviews.\n\n---\n\n# 📚 Comprehensive Data Structures Notes\n\n## 1. Introduction to Data Structures\n\n**What is a Data Structure?**\nA data structure is a specialized format for organizing, processing, retrieving, and storing data in a computer's memory so it can be used efficiently.\n\n**Why are they important?**\n*   **Efficiency:** Helps manage large amounts of data quickly.\n*   **Reusability:** Data structures are reusable across different programs.\n*   **Abstraction:** Hides the low-level details of data storage, showing only the relevant operations.\n\n**Classification:**\n1.  **Linear:** Elements are arranged sequentially (e.g., Array, Linked List, Stack, Queue).\n2.  **Non-Linear:** Elements are arranged in a hierarchical or interconnected network (e.g., Trees, Graphs).\n\n---\n\n## 2. Linear Data Structures\n\n### A. Array\n*   **Definition:** A collection of items stored at contiguous memory locations.\n*   **Characteristics:**\n    *   Fixed size (in traditional arrays).\n    *   Homogeneous elements (same data type).\n    *   Random access via index.\n*   **Time Complexity:**\n    *   Access: $O(1)$\n    *   Search: $O(N)$ (Unsorted) / $O(\\log N)$ (Sorted)\n    *   Insertion/Deletion: $O(N)$ (due to shifting)\n\n### B. Linked List\n*   **Definition:** A linear collection of data elements (nodes) where each node points to the next, using pointers.\n*   **Types:** Singly Linked List, Doubly Linked List, Circular Linked List.\n*   **Characteristics:**\n    *   Dynamic size.\n    *   Non-contiguous memory allocation.\n*   **Time Complexity:**\n    *   Access: $O(N)$\n    *   Insertion/Deletion at Head: $O(1)$\n    *   Insertion/Deletion at Tail/Middle: $O(N)$\n\n### C. Stack\n*   **Definition:** A LIFO (Last In, First Out) structure.\n*   **Core Operations:**\n    *   `push(item)`: Adds an item to the top.\n    *   `pop()`: Removes and returns the top item.\n    *   `peek()`: Returns the top item without removing it.\n*   **Use Cases:** Function call management (Call Stack), Undo/Redo features, Expression evaluation.\n*   **Time Complexity:** $O(1)$ for Push, Pop, and Peek.\n\n### D. Queue\n*   **Definition:** A FIFO (First In, First Out) structure.\n*   **Types:** Simple Queue, Circular Queue, Priority Queue, Deque (Double-ended Queue).\n*   **Core Operations:**\n    *   `enqueue(item)`: Adds an item to the back.\n    *   `dequeue()`: Removes an item from the front.\n*   **Use Cases:** Print spooling, CPU task scheduling, Breadth-First Search (BFS).\n*   **Time Complexity:** $O(1)$ for Enqueue and Dequeue.\n\n---\n\n## 3. Non-Linear Data Structures\n\n### A. Trees\n*   **Definition:** A hierarchical structure consisting of nodes connected by edges. Consists of a root node, branches, and leaf nodes.\n*   **Key Terminology:** Root, Parent, Child, Leaf, Depth, Height.\n*   **Binary Tree:** A tree where every node has at most two children (Left and Right).\n*   **Binary Search Tree (BST):** A binary tree where the left subtree contains only nodes with keys lesser than the node’s key, and the right subtree contains only keys greater.\n*   **Specialized Trees:** AVL Tree, Red-Black Tree, B-Tree, Trie (Prefix Tree).\n*   **Time Complexity (Balanced BST):**\n    *   Search/Insert/Delete: $O(\\log N)$\n\n### B. Graphs\n*   **Definition:** A collection of nodes (Vertices, $V$) and connections between them (Edges, $E$).\n*   **Types:** \n    *   Directed vs. Undirected\n    *   Weighted vs. Unweighted\n    *   Cyclic vs. Acyclic\n*   **Representations:** Adjacency Matrix, Adjacency List.\n*   **Traversal Algorithms:**\n    *   Breadth-First Search (BFS",
+  "created_at": {
+    "$date": "2026-09-24T03:28:57.436Z"
+  },
+  "executed_at": {
+    "$date": "2026-09-24T03:29:01.837Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6ab49a1cb879a37617217319"
+  },
+  "user_id": {
+    "$oid": "6ab15312e18e6aa15d5d53e8"
+  },
+  "title": "Generative Artificial Intelligence",
+  "prompt": "Give me overview of gen ai in hinglish and history of gen ai\n",
+  "model": "fast",
+  "temperature": 0.7,
+  "max_output_tokens": 512,
+  "response": "Yeh lijiye GenAI (Generative AI) ka overview Hinglish mein, saath hi iske itihaas (history) ki ek choti si kahani.\n\n---\n\n### Part 1: GenAI (Generative AI) Overview in Hinglish\n\n**GenAI kya hai?**\nGenAI ka matlab hai **Generative Artificial Intelligence**. Yeh AI ka ek aisa type hai jo naya content (jaise text, images, music, video, code, aur audio) **generate** (bana) sakta hai. \n\nPehle ke computers sirf data analyze karte the ya rules follow karte the. Lekin GenAI insano ki tarah sochkar kuch naya create kar sakta hai.\n\n**Yeh kaam kaise karta hai?**\nGenAI **Deep Learning** aur **Large Language Models (LLMs)** par kaam karta hai. Isko internet ke arabon (billions) data points, articles, books, aur photos se train kiya jata hai. Jab aap isse kuch poochte ho, toh yeh probability ke hisaab se sabse best jawab ya image khud likh ya bana deta hai.\n\n**Examples:**\n*   **Text:** ChatGPT, Google Gemini (ye aapke liye email, essay, ya code likh sakte hain).\n*   **Images:** Midjourney, DALL-E (ye text prompt se kuch bhi photo bana sakte hain).\n*   **Video/Audio:** Sora, ElevenLabs (video aur realistic awaaz banane ke liye).\n\n**Fayde (Benefits):** Productivity badhata hai, coding aasan karta hai, creativity mein madad karta hai.\n**Nuqsaan (Challenges):** Fake news (Deepfakes) fail sakti hai, job security ka darr hai, aur kabhi-kabhi galat information (hallucination) bhi de deta hai.\n\n---\n\n### Part 2: History of GenAI (GenAI ka Itihaas)\n\nGenAI aaj achanak se nahi aaya hai; iske peeche 1950s se mehnat chal rahi hai. Isko hum kuch phases mein baant sakte hain:\n\n#### 1. Shuruwat (1950s - 1960s): AI ka Janam\n*   **1950:** Alan Turing ne **\"Turing Test\"** diya yeh check karne ke liye ki kya machine insano ki tarah soch sakti hai.",
+  "created_at": {
+    "$date": "2026-09-24T03:33:48.395Z"
+  },
+  "executed_at": {
+    "$date": "2026-09-24T03:33:52.074Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6abccd2001ea1209937cfd77"
+  },
+  "user_id": {
+    "$oid": "6ab15312e18e6aa15d5d53e8"
+  },
+  "title": "Browser UI persistence test - explain MongoDB indexes briefl",
+  "prompt": "Browser UI persistence test - explain MongoDB indexes briefly",
+  "model": "fast",
+  "temperature": 0.7,
+  "max_output_tokens": 1000,
+  "response": null,
+  "created_at": {
+    "$date": "2026-09-30T08:49:36.122Z"
+  }
+}]

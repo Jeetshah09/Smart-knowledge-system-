@@ -1,0 +1,1100 @@
+ROLE
+
+Act as a Senior Frontend Architect, React/Next.js Developer, TypeScript Developer and UI/UX Designer.
+
+Build a complete, modern, responsive frontend web application called:
+
+"AI Smart Knowledge Management System"
+
+The application is inspired by Google AI Studio and NotebookLM, but it is an original project. It should function primarily as an interactive AI knowledge chatbot and learning workspace.
+
+The chatbot is the central feature. Users should be able to create notebooks, add learning resources, communicate with them through an AI chat interface, and generate summaries, quizzes, FAQs, flashcards and study notes.
+
+IMPORTANT:
+Build FRONTEND ONLY.
+
+Do not implement backend logic, MongoDB, FastAPI, Gemini API calls, server authentication, or AI processing.
+
+Use realistic mock data and mock AI responses. However, create a clean API service layer using Axios so the frontend can later connect to a FastAPI backend.
+
+--------------------------------------------------
+TECHNOLOGY STACK
+--------------------------------------------------
+
+Use exactly:
+
+1. Next.js 15
+2. React 19
+3. TypeScript
+4. Tailwind CSS
+5. shadcn/ui
+6. Framer Motion
+7. Lucide React
+8. React Hook Form
+9. Zod
+10. Axios
+
+Use Next.js App Router.
+
+Use TypeScript strictly. Avoid unnecessary JavaScript files.
+
+Use shadcn/ui for reusable interface components and Tailwind CSS for customization.
+
+Use Framer Motion for meaningful animations.
+
+Use Lucide React for icons.
+
+Use React Hook Form + Zod for forms and validation.
+
+Use Axios for all future backend communication.
+
+--------------------------------------------------
+PROJECT VISION
+--------------------------------------------------
+
+Create a polished AI learning workspace where a user can:
+
+• Create an account
+• Create notebooks
+• Upload learning resources
+• Add YouTube URLs
+• View resources
+• Open an AI Workspace
+• Ask questions
+• Generate summaries
+• Generate quizzes
+• Generate FAQs
+• Generate flashcards
+• Generate study notes
+• Maintain conversation history
+• Experiment with prompts using AI Studio
+
+The interface should feel inspired by Google AI Studio, NotebookLM and modern conversational AI applications while maintaining its own identity.
+
+--------------------------------------------------
+MAIN NAVIGATION
+--------------------------------------------------
+
+Create a collapsible left sidebar.
+
+Navigation:
+
+Dashboard
+My Notebooks
+AI Workspace
+AI Studio
+Search
+Conversations
+
+Divider
+
+Settings
+Profile
+
+Sidebar bottom:
+
+User Avatar
+User Name
+Theme Toggle
+Logout
+
+On mobile, convert the sidebar into a slide-out navigation drawer.
+
+--------------------------------------------------
+PAGES
+--------------------------------------------------
+
+Create the following pages:
+
+1. Landing Page
+2. Login
+3. Register
+4. Forgot Password
+5. Dashboard
+6. My Notebooks
+7. Create Notebook
+8. Notebook Details
+9. Resource Management
+10. AI Workspace
+11. Conversation History
+12. AI Studio
+13. Search
+14. Profile
+15. Settings
+
+--------------------------------------------------
+LANDING PAGE
+--------------------------------------------------
+
+Create a professional landing page.
+
+Hero:
+
+"Your Personal AI Knowledge Assistant"
+
+Description:
+
+"Upload your learning resources, ask questions, understand complex topics and turn information into interactive knowledge."
+
+Buttons:
+
+Get Started
+Explore Demo
+
+Feature cards:
+
+AI Chat
+Smart Summaries
+Quiz Generator
+Flashcards
+YouTube Learning
+AI Studio
+
+How It Works:
+
+1. Create a Notebook
+2. Add Learning Resources
+3. Ask the AI
+4. Learn and Generate Knowledge
+
+Add a clean footer.
+
+--------------------------------------------------
+AUTHENTICATION UI
+--------------------------------------------------
+
+Create:
+
+Login
+Register
+Forgot Password
+
+Login fields:
+
+Email
+Password
+
+Register:
+
+Name
+Email
+Password
+Confirm Password
+
+Use React Hook Form + Zod.
+
+Show:
+
+Validation messages
+Loading states
+Success states
+Error states
+Password visibility toggle
+
+Use mock authentication only.
+
+--------------------------------------------------
+DASHBOARD
+--------------------------------------------------
+
+Create a modern knowledge dashboard.
+
+Top:
+
+"Welcome back!"
+
+Quick actions:
+
+Create Notebook
+Upload Resource
+Open AI Workspace
+
+Statistics:
+
+Total Notebooks
+Total Resources
+Total Conversations
+Learning Activity
+
+Recent Notebooks
+
+Recent Conversations
+
+Recent Resources
+
+Use reusable DashboardCard components.
+
+--------------------------------------------------
+MY NOTEBOOKS
+--------------------------------------------------
+
+Display notebooks as cards.
+
+Each card:
+
+Notebook icon
+Title
+Description
+Resource count
+Last updated
+Pinned status
+
+Actions:
+
+Open
+Rename
+Delete
+Pin
+
+Features:
+
+Search
+Sort
+Filter
+Create Notebook
+
+Use shadcn Dialog for create/edit forms.
+
+--------------------------------------------------
+NOTEBOOK DETAILS
+--------------------------------------------------
+
+Create a dedicated notebook workspace.
+
+Header:
+
+Notebook name
+Description
+Edit
+Delete
+Open AI Workspace
+
+Main layout:
+
+Left/source section:
+
+Learning Resources
+
+Right/main section:
+
+Recent Conversations
+Generated Content
+Notes
+
+Resources can include:
+
+PDF
+DOCX
+TXT
+Image
+YouTube
+
+--------------------------------------------------
+RESOURCE MANAGEMENT
+--------------------------------------------------
+
+Create a drag-and-drop upload interface.
+
+Supported resources:
+
+PDF
+DOCX
+TXT
+Images
+
+Also provide:
+
+"YouTube URL" input.
+
+Resource cards should display:
+
+File icon/thumbnail
+Name
+Type
+Size
+Date
+Status
+
+Actions:
+
+Preview
+Open
+Delete
+
+Show upload progress.
+
+Use mock upload behavior.
+
+--------------------------------------------------
+AI WORKSPACE
+--------------------------------------------------
+
+THIS IS THE MOST IMPORTANT SCREEN.
+
+Make this the primary experience of the application.
+
+Create a layout inspired by NotebookLM/Gemini.
+
+Desktop:
+
+------------------------------------------------
+| Sources |          AI Conversation           |
+|         |                                    |
+| PDF     | User Message                       |
+| DOCX    |                                    |
+| TXT     | AI Response                        |
+| Image   |                                    |
+| YouTube | User Message                       |
+|         |                                    |
+|         | AI Response                        |
+|         |                                    |
+|         |------------------------------------|
+|         | Ask anything...             Send   |
+------------------------------------------------
+
+LEFT SOURCE PANEL:
+
+Display selected notebook resources.
+
+Allow:
+
+Select source
+Unselect source
+View source
+Remove source
+
+MAIN CHAT:
+
+Display:
+
+User messages
+AI messages
+Typing indicator
+Loading state
+Suggested questions
+
+Chat actions:
+
+Copy
+Regenerate
+Edit
+Delete
+
+BOTTOM CHAT COMPOSER:
+
+Large text input.
+
+Buttons:
+
+Attach
+Select Sources
+Send
+
+Suggested prompts:
+
+"Summarize this document"
+"What are the important points?"
+"Explain this topic simply"
+"Generate 10 MCQs"
+"Create flashcards"
+
+Use mock AI responses.
+
+--------------------------------------------------
+AI ACTIONS
+--------------------------------------------------
+
+Provide quick action buttons/cards:
+
+Summarize
+Key Points
+FAQ
+Quiz
+Flashcards
+Study Notes
+Explain Simply
+
+When clicked, show a loading state and then a realistic mock result.
+
+Use:
+
+Dialogs
+Cards
+Tabs
+Expandable sections
+
+--------------------------------------------------
+SUMMARY RESULT
+--------------------------------------------------
+
+Create a beautiful result card containing:
+
+Title
+Short Summary
+Detailed Summary
+Key Points
+
+Actions:
+
+Copy
+Save
+Regenerate
+Export
+
+--------------------------------------------------
+QUIZ
+--------------------------------------------------
+
+Create an interactive quiz interface.
+
+Display:
+
+Question
+Options A/B/C/D
+
+Allow user selection.
+
+Show:
+
+Submit Answer
+Next Question
+Score
+Correct Answers
+
+At the end:
+
+Quiz completed
+Score
+Retry Quiz
+
+--------------------------------------------------
+FLASHCARDS
+--------------------------------------------------
+
+Create interactive flashcards.
+
+Front:
+
+Question / Concept
+
+Back:
+
+Answer / Explanation
+
+Allow:
+
+Flip
+Next
+Previous
+Shuffle
+
+Display progress.
+
+--------------------------------------------------
+FAQ
+--------------------------------------------------
+
+Generate FAQ-style cards.
+
+Each card:
+
+Question
+Expandable Answer
+
+Actions:
+
+Copy
+Save
+
+--------------------------------------------------
+YOUTUBE LEARNING
+--------------------------------------------------
+
+Create a YouTube learning interface.
+
+User enters:
+
+YouTube URL
+
+Show:
+
+Video thumbnail placeholder
+Video title
+Channel
+Duration
+
+Actions:
+
+Summarize
+Key Points
+Quiz
+Flashcards
+Ask Questions
+
+Show generated results using mock data.
+
+--------------------------------------------------
+AI STUDIO
+--------------------------------------------------
+
+Create a separate Prompt Playground inspired by Google AI Studio.
+
+Layout:
+
+Left:
+
+Prompt Editor
+
+Right:
+
+AI Response
+
+Settings panel:
+
+Model selector
+Temperature slider
+Maximum output tokens
+
+Buttons:
+
+Generate
+Clear
+Copy
+Save Prompt
+
+Prompt history section.
+
+Example prompts:
+
+"Explain Artificial Intelligence for a beginner."
+
+"Create 10 MCQs about Machine Learning."
+
+"Summarize the selected source."
+
+Use mock responses.
+
+--------------------------------------------------
+SEARCH
+--------------------------------------------------
+
+Create global search.
+
+Search:
+
+Notebooks
+Resources
+Conversations
+Notes
+
+Features:
+
+Search input
+Recent searches
+Filters
+Search results
+
+--------------------------------------------------
+CONVERSATION HISTORY
+--------------------------------------------------
+
+Display previous conversations.
+
+Each item:
+
+Conversation title
+Notebook
+Last message
+Date
+
+Actions:
+
+Open
+Rename
+Pin
+Delete
+
+Provide search.
+
+--------------------------------------------------
+PROFILE
+--------------------------------------------------
+
+Display:
+
+Profile photo
+Name
+Email
+
+Allow editing:
+
+Name
+Profile photo
+
+Use React Hook Form + Zod.
+
+--------------------------------------------------
+SETTINGS
+--------------------------------------------------
+
+Sections:
+
+Appearance
+Notifications
+AI Preferences
+Account
+
+Appearance:
+
+Light mode
+Dark mode
+System mode
+
+Notifications:
+
+Email notifications
+Learning reminders
+
+AI preferences:
+
+Default model
+Response style
+
+Account:
+
+Logout
+Delete account
+
+Use shadcn Switch, Select, Dialog and Tabs.
+
+--------------------------------------------------
+UI DESIGN
+--------------------------------------------------
+
+Design should be:
+
+Modern
+Minimal
+Professional
+Clean
+Responsive
+
+Visual inspiration:
+
+Google AI Studio
+NotebookLM
+Gemini
+ChatGPT
+
+Do not copy their exact branding or UI.
+
+Use:
+
+Rounded cards
+Subtle borders
+Soft shadows
+Clean typography
+Comfortable spacing
+Modern gradients
+Professional icons
+
+Primary visual focus should be the AI Workspace.
+
+--------------------------------------------------
+RESPONSIVE DESIGN
+--------------------------------------------------
+
+Support:
+
+Desktop
+Tablet
+Mobile
+
+Desktop:
+
+Three-column AI Workspace when appropriate.
+
+Tablet:
+
+Two-column layout.
+
+Mobile:
+
+Single-column layout.
+
+The chat composer should remain easily accessible on mobile.
+
+--------------------------------------------------
+DARK MODE
+--------------------------------------------------
+
+Implement light and dark themes using Tailwind CSS.
+
+Theme toggle should be available in the sidebar/profile menu.
+
+Ensure:
+
+Cards
+Inputs
+Dialogs
+Chat bubbles
+Sidebar
+Navigation
+
+all look correct in both themes.
+
+--------------------------------------------------
+ANIMATIONS
+--------------------------------------------------
+
+Use Framer Motion.
+
+Implement meaningful animations:
+
+Page transitions
+Sidebar open/close
+Notebook card hover
+Chat message appearance
+AI typing indicator
+Modal transitions
+Resource upload animation
+Quiz transitions
+Flashcard flip
+
+Do not overuse animations.
+
+--------------------------------------------------
+COMPONENT ARCHITECTURE
+--------------------------------------------------
+
+Create reusable components.
+
+Layout:
+
+Sidebar
+Navbar
+MobileNavigation
+PageContainer
+
+Dashboard:
+
+DashboardCard
+QuickActionCard
+RecentNotebook
+ActivityCard
+
+Notebook:
+
+NotebookCard
+NotebookHeader
+NotebookGrid
+
+Resources:
+
+ResourceCard
+UploadArea
+ResourceList
+ResourcePreview
+YouTubeInput
+
+AI Workspace:
+
+WorkspaceLayout
+SourcePanel
+SourceItem
+ChatWindow
+ChatMessage
+ChatComposer
+SuggestedPrompt
+TypingIndicator
+AIResponse
+ResponseActions
+
+AI Actions:
+
+SummaryCard
+QuizCard
+Flashcard
+FAQCard
+StudyNotesCard
+
+AI Studio:
+
+PromptEditor
+ModelSelector
+TemperatureSlider
+TokenSlider
+ResponsePanel
+PromptHistory
+
+Common:
+
+Button
+Modal
+Dialog
+Tabs
+Dropdown
+Toast
+Tooltip
+Skeleton
+EmptyState
+ErrorState
+LoadingState
+ConfirmationDialog
+
+Use shadcn/ui wherever appropriate.
+
+--------------------------------------------------
+TYPESCRIPT TYPES
+--------------------------------------------------
+
+Create interfaces/types for:
+
+User
+Notebook
+Resource
+Conversation
+Message
+AIResponse
+Summary
+Quiz
+QuizQuestion
+Flashcard
+FAQ
+Prompt
+PromptHistory
+UserSettings
+
+Keep types centralized.
+
+--------------------------------------------------
+MOCK DATA
+--------------------------------------------------
+
+Create realistic mock data.
+
+Include:
+
+3-5 notebooks
+Multiple resources
+Several conversations
+AI responses
+Quiz questions
+Flashcards
+Prompts
+
+The application should look populated when first opened.
+
+--------------------------------------------------
+STATE MANAGEMENT
+--------------------------------------------------
+
+Do not add Redux or another large state library unless genuinely required.
+
+Use:
+
+React state
+Context where appropriate
+Local storage for UI preferences/mock persistence
+
+Keep the application simple.
+
+--------------------------------------------------
+API SERVICE ARCHITECTURE
+--------------------------------------------------
+
+Create an Axios API client.
+
+Example:
+
+lib/api.ts
+
+services/authService.ts
+services/notebookService.ts
+services/resourceService.ts
+services/chatService.ts
+services/aiService.ts
+services/searchService.ts
+
+Use placeholder API endpoints for future FastAPI integration.
+
+Example:
+
+POST /api/auth/login
+GET /api/notebooks
+POST /api/notebooks
+GET /api/notebooks/:id
+POST /api/resources
+POST /api/chat
+GET /api/conversations
+POST /api/ai/summary
+POST /api/ai/quiz
+POST /api/ai/flashcards
+
+Do NOT actually implement these backend endpoints.
+
+--------------------------------------------------
+FOLDER STRUCTURE
+--------------------------------------------------
+
+Use a clean Next.js App Router structure:
+
+src/
+  app/
+    page.tsx
+    login/
+    register/
+    dashboard/
+    notebooks/
+    workspace/
+    studio/
+    search/
+    conversations/
+    profile/
+    settings/
+
+  components/
+    ui/
+    layout/
+    dashboard/
+    notebooks/
+    resources/
+    workspace/
+    studio/
+    search/
+    profile/
+    settings/
+
+  services/
+
+  hooks/
+
+  lib/
+
+  types/
+
+  data/
+
+  utils/
+
+public/
+
+Keep components modular.
+
+--------------------------------------------------
+ACCESSIBILITY
+--------------------------------------------------
+
+Implement:
+
+Keyboard navigation
+Accessible labels
+ARIA attributes where needed
+Good color contrast
+Focus states
+Semantic HTML
+
+--------------------------------------------------
+LOADING / ERROR / EMPTY STATES
+--------------------------------------------------
+
+Every important page should have:
+
+Loading state
+Error state
+Empty state
+
+Examples:
+
+No notebooks yet:
+
+"Create your first notebook to start learning."
+
+No conversations:
+
+"Start a conversation with your knowledge."
+
+No resources:
+
+"Upload a document or add a YouTube video."
+
+--------------------------------------------------
+MOCK AI EXPERIENCE
+--------------------------------------------------
+
+Since there is no backend yet, simulate AI responses.
+
+When user sends:
+
+"Summarize this document"
+
+show:
+
+Typing...
+
+then display:
+
+"Here is a summary of the selected document..."
+
+When user clicks Quiz:
+
+show loading...
+
+then display realistic quiz questions.
+
+The mock system should feel like a real AI application.
+
+--------------------------------------------------
+IMPORTANT DEVELOPMENT RULES
+--------------------------------------------------
+
+1. Use TypeScript throughout.
+2. Use reusable components.
+3. Do not duplicate UI code unnecessarily.
+4. Use shadcn/ui for standard components.
+5. Use Tailwind for styling.
+6. Use Framer Motion only where useful.
+7. Use Lucide icons.
+8. Use React Hook Form + Zod for forms.
+9. Use Axios through a centralized API client.
+10. Keep backend/API logic separate from UI.
+11. Do not expose Gemini API keys in frontend code.
+12. Do not implement backend functionality.
+13. Do not introduce unnecessary libraries.
+14. Do not use placeholder screens for core modules.
+15. Use realistic mock data.
+16. Ensure every navigation item works.
+17. Ensure buttons have appropriate interactions.
+18. Make the UI responsive.
+19. Implement both light and dark modes.
+20. Keep the architecture ready for FastAPI integration.
+
+--------------------------------------------------
+FINAL RESULT
+--------------------------------------------------
+
+The final frontend should feel like a complete AI learning workspace rather than a simple chatbot.
+
+The main user journey should be:
+
+Landing Page
+↓
+Login
+↓
+Dashboard
+↓
+Create Notebook
+↓
+Add Learning Resources
+↓
+Open AI Workspace
+↓
+Ask Questions
+↓
+Generate Summary / Quiz / Flashcards / FAQ
+↓
+Save Conversation
+↓
+Continue Learning
+
+The final design should be professional enough for a B.Tech Minor Project demonstration and simple enough to connect later with a FastAPI + MongoDB backend and Google Gemini API.

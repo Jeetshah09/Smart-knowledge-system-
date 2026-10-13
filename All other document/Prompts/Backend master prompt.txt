@@ -1,0 +1,2009 @@
+ROLE
+
+Act as a Senior Backend Architect, Python Developer, FastAPI Developer, MongoDB Developer, API Designer and Gemini API Developer.
+
+Build a complete, functional and well-structured backend for a web application called:
+
+"AI Smart Knowledge Management System"
+
+The application is an interactive AI knowledge and learning assistant inspired by Google AI Studio and NotebookLM.
+
+The main purpose of the application is to allow users to create notebooks, upload learning resources, communicate with their resources through an AI chatbot, and generate useful learning content such as summaries, quizzes, FAQs, flashcards and study notes.
+
+IMPORTANT PROJECT SCOPE
+
+This is a B.Tech Minor Project.
+
+Keep the architecture SIMPLE, understandable, maintainable and easy to demonstrate in a viva.
+
+DO NOT use:
+
+- LangChain
+- LlamaIndex
+- RAG
+- Vector databases
+- Embeddings
+- Pinecone
+- Qdrant
+- Milvus
+- Weaviate
+- Neo4j
+- Knowledge graphs
+- Agent frameworks
+- Multi-agent systems
+- Complex AI pipelines
+
+The application should use normal Python processing, MongoDB and the Gemini API.
+
+The AI workflow must simply be:
+
+User Resource
+↓
+Extract readable content
+↓
+Store content in MongoDB
+↓
+User asks question
+↓
+FastAPI retrieves selected content
+↓
+FastAPI creates a prompt
+↓
+Gemini API
+↓
+Gemini generates response
+↓
+FastAPI returns response
+↓
+Save conversation to MongoDB
+
+
+==================================================
+TECHNOLOGY STACK
+==================================================
+
+Backend:
+
+Python 3.11+
+FastAPI
+Uvicorn
+Pydantic
+PyMongo
+MongoDB
+python-dotenv
+
+Authentication:
+
+JWT
+bcrypt/passlib
+
+AI:
+
+Google Gemini API / official Gemini Python SDK
+
+Document Processing:
+
+PyMuPDF
+python-docx
+Pillow
+
+HTTP:
+
+httpx
+
+Validation:
+
+Pydantic
+
+Testing:
+
+Pytest
+
+API Testing:
+
+FastAPI Swagger UI
+Postman
+
+
+==================================================
+DATABASE
+==================================================
+
+Use MongoDB.
+
+Database name:
+
+ai_smart_knowledge_db
+
+Do NOT use SQLAlchemy.
+
+Do NOT use PostgreSQL.
+
+Do NOT use MySQL.
+
+Use PyMongo to communicate with MongoDB.
+
+
+==================================================
+MONGODB COLLECTIONS
+==================================================
+
+Create/use these collections:
+
+1. users
+2. notebooks
+3. resources
+4. conversations
+5. messages
+6. generated_content
+7. prompts
+8. user_settings
+9. activity_logs
+
+
+==================================================
+COLLECTION 1 — USERS
+==================================================
+
+Collection:
+
+users
+
+Purpose:
+
+Store registered user accounts.
+
+Document structure:
+
+{
+    "_id": ObjectId,
+    "name": String,
+    "email": String,
+    "password_hash": String,
+    "profile_image": String | null,
+    "is_active": Boolean,
+    "created_at": DateTime,
+    "updated_at": DateTime
+}
+
+Rules:
+
+- Email must be unique.
+- Password must never be stored as plain text.
+- Store only password_hash.
+- Email should be normalized to lowercase.
+
+
+==================================================
+COLLECTION 2 — NOTEBOOKS
+==================================================
+
+Collection:
+
+notebooks
+
+Purpose:
+
+Store user-created learning notebooks.
+
+Document structure:
+
+{
+    "_id": ObjectId,
+    "user_id": ObjectId,
+
+    "title": String,
+    "description": String,
+
+    "is_pinned": Boolean,
+
+    "created_at": DateTime,
+    "updated_at": DateTime
+}
+
+Relationship:
+
+One user can have multiple notebooks.
+
+Every notebook belongs to exactly one user.
+
+Users must only be able to access their own notebooks.
+
+
+==================================================
+COLLECTION 3 — RESOURCES
+==================================================
+
+Collection:
+
+resources
+
+Purpose:
+
+Store information about uploaded learning resources.
+
+Supported resource types:
+
+- pdf
+- docx
+- txt
+- image
+- youtube
+
+Document structure:
+
+{
+    "_id": ObjectId,
+
+    "user_id": ObjectId,
+    "notebook_id": ObjectId,
+
+    "name": String,
+    "type": String,
+
+    "file_path": String | null,
+
+    "youtube_url": String | null,
+
+    "file_size": Integer | null,
+    "mime_type": String | null,
+
+    "content": String,
+
+    "processing_status": String,
+
+    "created_at": DateTime,
+    "updated_at": DateTime
+}
+
+Processing status values:
+
+uploaded
+processing
+completed
+failed
+
+IMPORTANT:
+
+Do not store the actual PDF/DOCX/image binary inside MongoDB.
+
+Store uploaded files in local storage during development.
+
+Example:
+
+uploads/
+    pdf/
+    documents/
+    images/
+
+MongoDB stores:
+
+- file path
+- metadata
+- extracted readable content
+
+
+==================================================
+COLLECTION 4 — CONVERSATIONS
+==================================================
+
+Collection:
+
+conversations
+
+Purpose:
+
+Store chatbot conversations.
+
+Document structure:
+
+{
+    "_id": ObjectId,
+
+    "user_id": ObjectId,
+    "notebook_id": ObjectId,
+
+    "title": String,
+
+    "created_at": DateTime,
+    "updated_at": DateTime
+}
+
+A conversation belongs to:
+
+User
+and
+Notebook.
+
+
+==================================================
+COLLECTION 5 — MESSAGES
+==================================================
+
+Collection:
+
+messages
+
+Purpose:
+
+Store individual chat messages.
+
+Do NOT store all messages inside one huge conversation document.
+
+Use a separate collection.
+
+Document structure:
+
+{
+    "_id": ObjectId,
+
+    "conversation_id": ObjectId,
+    "user_id": ObjectId,
+
+    "role": String,
+
+    "content": String,
+
+    "created_at": DateTime
+}
+
+Allowed roles:
+
+user
+assistant
+
+
+==================================================
+COLLECTION 6 — GENERATED_CONTENT
+==================================================
+
+Collection:
+
+generated_content
+
+Purpose:
+
+Store AI-generated learning material.
+
+Supported types:
+
+summary
+quiz
+flashcards
+faq
+study_notes
+
+Document structure:
+
+{
+    "_id": ObjectId,
+
+    "user_id": ObjectId,
+    "notebook_id": ObjectId,
+
+    "resource_id": ObjectId | null,
+
+    "type": String,
+
+    "title": String,
+
+    "content": Object,
+
+    "created_at": DateTime
+}
+
+Example summary:
+
+{
+    "type": "summary",
+
+    "content": {
+        "short_summary": "...",
+        "detailed_summary": "...",
+        "key_points": [
+            "...",
+            "...",
+            "..."
+        ]
+    }
+}
+
+Example quiz:
+
+{
+    "type": "quiz",
+
+    "content": {
+        "questions": [
+            {
+                "question": "What is AI?",
+                "options": [
+                    "Option A",
+                    "Option B",
+                    "Option C",
+                    "Option D"
+                ],
+                "correct_answer": "Option A",
+                "explanation": "..."
+            }
+        ]
+    }
+}
+
+Example flashcards:
+
+{
+    "type": "flashcards",
+
+    "content": {
+        "cards": [
+            {
+                "question": "...",
+                "answer": "...",
+                "explanation": "..."
+            }
+        ]
+    }
+}
+
+
+==================================================
+COLLECTION 7 — PROMPTS
+==================================================
+
+Collection:
+
+prompts
+
+Purpose:
+
+Store prompts created through the AI Studio / Prompt Playground.
+
+Document structure:
+
+{
+    "_id": ObjectId,
+
+    "user_id": ObjectId,
+
+    "title": String,
+    "prompt": String,
+
+    "model": String,
+
+    "temperature": Float,
+
+    "max_output_tokens": Integer,
+
+    "response": String | null,
+
+    "created_at": DateTime
+}
+
+Default model:
+
+gemini
+
+Default temperature:
+
+0.7
+
+Default max output tokens:
+
+1000
+
+
+==================================================
+COLLECTION 8 — USER_SETTINGS
+==================================================
+
+Collection:
+
+user_settings
+
+Purpose:
+
+Store user preferences.
+
+Document structure:
+
+{
+    "_id": ObjectId,
+
+    "user_id": ObjectId,
+
+    "theme": String,
+
+    "notifications": Boolean,
+
+    "default_model": String,
+
+    "response_style": String,
+
+    "created_at": DateTime,
+
+    "updated_at": DateTime
+}
+
+Allowed themes:
+
+light
+dark
+system
+
+Response styles:
+
+concise
+balanced
+detailed
+
+
+==================================================
+COLLECTION 9 — ACTIVITY_LOGS
+==================================================
+
+Collection:
+
+activity_logs
+
+Purpose:
+
+Store basic user activity for the dashboard.
+
+Document structure:
+
+{
+    "_id": ObjectId,
+
+    "user_id": ObjectId,
+
+    "action": String,
+
+    "description": String,
+
+    "metadata": Object,
+
+    "created_at": DateTime
+}
+
+Possible actions:
+
+login
+created_notebook
+updated_notebook
+deleted_notebook
+uploaded_resource
+deleted_resource
+started_chat
+generated_summary
+generated_quiz
+generated_flashcards
+generated_faq
+generated_study_notes
+
+
+==================================================
+MONGODB INDEXES
+==================================================
+
+Create indexes when the FastAPI application starts.
+
+Users:
+
+users.email → UNIQUE
+
+Notebooks:
+
+notebooks.user_id
+
+notebooks.user_id + created_at
+
+Resources:
+
+resources.user_id
+
+resources.notebook_id
+
+resources.notebook_id + created_at
+
+Conversations:
+
+conversations.user_id
+
+conversations.notebook_id
+
+Messages:
+
+messages.conversation_id
+
+messages.conversation_id + created_at
+
+Generated content:
+
+generated_content.user_id
+
+generated_content.notebook_id
+
+generated_content.notebook_id + created_at
+
+Prompts:
+
+prompts.user_id
+
+User settings:
+
+user_settings.user_id → UNIQUE
+
+Activity:
+
+activity_logs.user_id + created_at
+
+
+==================================================
+MONGODB CONNECTION
+==================================================
+
+Create:
+
+app/core/database.py
+
+Use PyMongo.
+
+Example:
+
+from pymongo import MongoClient
+import os
+
+MONGODB_URL = os.getenv("MONGODB_URL")
+DATABASE_NAME = os.getenv(
+    "DATABASE_NAME",
+    "ai_smart_knowledge_db"
+)
+
+client = MongoClient(MONGODB_URL)
+
+db = client[DATABASE_NAME]
+
+users_collection = db["users"]
+notebooks_collection = db["notebooks"]
+resources_collection = db["resources"]
+conversations_collection = db["conversations"]
+messages_collection = db["messages"]
+generated_content_collection = db["generated_content"]
+prompts_collection = db["prompts"]
+user_settings_collection = db["user_settings"]
+activity_logs_collection = db["activity_logs"]
+
+
+==================================================
+ENVIRONMENT VARIABLES
+==================================================
+
+Create:
+
+.env
+
+Variables:
+
+MONGODB_URL=
+DATABASE_NAME=ai_smart_knowledge_db
+
+GEMINI_API_KEY=
+
+JWT_SECRET_KEY=
+JWT_ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=60
+
+UPLOAD_DIR=uploads
+
+FRONTEND_URL=http://localhost:3000
+
+Never hard-code secrets.
+
+Create:
+
+.env.example
+
+with the same variable names but without secret values.
+
+Add .env to .gitignore.
+
+
+==================================================
+AUTHENTICATION
+==================================================
+
+Implement:
+
+Register
+Login
+Logout
+Current User
+Password Change
+
+Use:
+
+JWT access tokens.
+
+Use bcrypt/passlib for password hashing.
+
+Never store plain passwords.
+
+Endpoints:
+
+POST /api/auth/register
+
+POST /api/auth/login
+
+GET /api/auth/me
+
+POST /api/auth/logout
+
+POST /api/auth/change-password
+
+Protect private endpoints with JWT authentication.
+
+
+==================================================
+REGISTER
+==================================================
+
+Request:
+
+{
+    "name": "John",
+    "email": "john@example.com",
+    "password": "password123"
+}
+
+Process:
+
+Validate input
+↓
+Check email
+↓
+Hash password
+↓
+Create user
+↓
+Create default settings
+↓
+Return user
+
+
+==================================================
+LOGIN
+==================================================
+
+Request:
+
+{
+    "email": "john@example.com",
+    "password": "password123"
+}
+
+Process:
+
+Find user
+↓
+Verify password
+↓
+Generate JWT
+↓
+Return access token
+
+
+==================================================
+NOTEBOOK API
+==================================================
+
+Create:
+
+POST /api/notebooks
+
+Get all:
+
+GET /api/notebooks
+
+Get one:
+
+GET /api/notebooks/{notebook_id}
+
+Update:
+
+PUT /api/notebooks/{notebook_id}
+
+Delete:
+
+DELETE /api/notebooks/{notebook_id}
+
+Pin/unpin:
+
+PATCH /api/notebooks/{notebook_id}/pin
+
+Search notebooks:
+
+GET /api/notebooks/search?q=...
+
+
+==================================================
+RESOURCE API
+==================================================
+
+Upload:
+
+POST /api/resources/upload
+
+Get resources:
+
+GET /api/notebooks/{notebook_id}/resources
+
+Get resource:
+
+GET /api/resources/{resource_id}
+
+Delete:
+
+DELETE /api/resources/{resource_id}
+
+YouTube:
+
+POST /api/resources/youtube
+
+
+==================================================
+FILE TYPES
+==================================================
+
+Allow:
+
+PDF
+DOCX
+TXT
+Images
+
+Validate:
+
+Extension
+MIME type
+File size
+
+Do not allow arbitrary executable files.
+
+
+==================================================
+PDF PROCESSING
+==================================================
+
+Use PyMuPDF.
+
+Workflow:
+
+PDF
+↓
+Validate
+↓
+Save file
+↓
+Extract text
+↓
+Clean text
+↓
+Save extracted content to MongoDB
+↓
+processing_status = completed
+
+
+==================================================
+DOCX PROCESSING
+==================================================
+
+Use python-docx.
+
+Workflow:
+
+DOCX
+↓
+Extract paragraphs
+↓
+Combine text
+↓
+Save content
+↓
+MongoDB
+
+
+==================================================
+TXT PROCESSING
+==================================================
+
+Read text file.
+
+Clean content.
+
+Save to MongoDB.
+
+
+==================================================
+IMAGE PROCESSING
+==================================================
+
+Use Pillow for image validation.
+
+Do not build a complicated OCR system.
+
+If image understanding is required, send the image to Gemini using the supported Gemini multimodal functionality.
+
+Store:
+
+file path
+metadata
+
+Do not attempt to create embeddings.
+
+
+==================================================
+YOUTUBE
+==================================================
+
+Allow:
+
+POST /api/resources/youtube
+
+Request:
+
+{
+    "notebook_id": "...",
+    "url": "https://youtube.com/watch?v=..."
+}
+
+Validate URL.
+
+Store:
+
+youtube_url
+notebook_id
+user_id
+name
+type
+processing_status
+
+If transcript/content extraction is available, store it in:
+
+content
+
+If transcript extraction is not available:
+
+Return a clear message.
+
+Never pretend that the video was processed if it was not.
+
+
+==================================================
+CHAT API
+==================================================
+
+Create:
+
+POST /api/chat
+
+Request:
+
+{
+    "notebook_id": "...",
+    "message": "...",
+    "resource_ids": [
+        "..."
+    ],
+    "conversation_id": null
+}
+
+Process:
+
+1. Authenticate user.
+
+2. Verify notebook belongs to user.
+
+3. Retrieve selected resources.
+
+4. Retrieve their content.
+
+5. Create prompt.
+
+6. Send prompt to Gemini.
+
+7. Receive Gemini response.
+
+8. Save user message.
+
+9. Save assistant response.
+
+10. Return response.
+
+
+==================================================
+CHAT PROMPT
+==================================================
+
+Use a simple prompt.
+
+System instruction:
+
+"You are an educational knowledge assistant.
+
+Answer questions using the learning material provided by the user.
+
+Explain concepts clearly and accurately.
+
+If the requested information is not available in the provided learning material, clearly tell the user that the information is not available in the selected resources.
+
+Do not invent information."
+
+Then provide:
+
+Learning Material:
+
+{resource_content}
+
+User Question:
+
+{user_message}
+
+
+==================================================
+IMPORTANT AI RULE
+==================================================
+
+Do NOT implement RAG.
+
+Do NOT implement embeddings.
+
+Do NOT implement vector search.
+
+The backend simply retrieves the selected resource content from MongoDB and provides it to Gemini as part of the prompt.
+
+This is intentional because this is a B.Tech Minor Project.
+
+
+==================================================
+GEMINI SERVICE
+==================================================
+
+Create:
+
+app/services/gemini_service.py
+
+Functions:
+
+generate_chat_response()
+
+generate_summary()
+
+generate_quiz()
+
+generate_flashcards()
+
+generate_faq()
+
+generate_study_notes()
+
+generate_prompt_response()
+
+
+==================================================
+SUMMARY API
+==================================================
+
+POST /api/ai/summary
+
+Request:
+
+{
+    "notebook_id": "...",
+    "resource_ids": ["..."]
+}
+
+Gemini should generate:
+
+Short Summary
+Detailed Summary
+Key Points
+
+Save result in generated_content.
+
+
+==================================================
+QUIZ API
+==================================================
+
+POST /api/ai/quiz
+
+Request:
+
+{
+    "notebook_id": "...",
+    "resource_ids": ["..."],
+    "number_of_questions": 10
+}
+
+Generate:
+
+Question
+Options
+Correct Answer
+Explanation
+
+Save result.
+
+
+==================================================
+FLASHCARD API
+==================================================
+
+POST /api/ai/flashcards
+
+Request:
+
+{
+    "notebook_id": "...",
+    "resource_ids": ["..."],
+    "number_of_cards": 10
+}
+
+Generate:
+
+Question
+Answer
+Explanation
+
+Save result.
+
+
+==================================================
+FAQ API
+==================================================
+
+POST /api/ai/faq
+
+Request:
+
+{
+    "notebook_id": "...",
+    "resource_ids": ["..."]
+}
+
+Generate:
+
+Question
+Answer
+
+Save result.
+
+
+==================================================
+STUDY NOTES API
+==================================================
+
+POST /api/ai/study-notes
+
+Request:
+
+{
+    "notebook_id": "...",
+    "resource_ids": ["..."]
+}
+
+Generate:
+
+Title
+Overview
+Important Concepts
+Key Points
+Conclusion
+
+Save result.
+
+
+==================================================
+CONVERSATION API
+==================================================
+
+Create:
+
+POST /api/conversations
+
+Get:
+
+GET /api/conversations
+
+Get one:
+
+GET /api/conversations/{conversation_id}
+
+Delete:
+
+DELETE /api/conversations/{conversation_id}
+
+Rename:
+
+PATCH /api/conversations/{conversation_id}
+
+
+==================================================
+MESSAGE API
+==================================================
+
+Get messages:
+
+GET /api/conversations/{conversation_id}/messages
+
+Messages should be sorted by:
+
+created_at ascending.
+
+
+==================================================
+PROMPT / AI STUDIO API
+==================================================
+
+Create prompt:
+
+POST /api/prompts
+
+Get prompts:
+
+GET /api/prompts
+
+Get prompt:
+
+GET /api/prompts/{prompt_id}
+
+Delete:
+
+DELETE /api/prompts/{prompt_id}
+
+Execute prompt:
+
+POST /api/prompts/{prompt_id}/execute
+
+The execute endpoint should send the prompt to Gemini.
+
+Save the response.
+
+
+==================================================
+SEARCH API
+==================================================
+
+Create:
+
+GET /api/search?q=...
+
+Search:
+
+Notebooks
+Resources
+Conversations
+Prompts
+
+Use simple MongoDB text or regex search.
+
+DO NOT implement vector search.
+
+
+==================================================
+SETTINGS API
+==================================================
+
+GET /api/settings
+
+PUT /api/settings
+
+Settings:
+
+theme
+notifications
+default_model
+response_style
+
+
+==================================================
+DASHBOARD API
+==================================================
+
+Create:
+
+GET /api/dashboard/stats
+
+Return:
+
+{
+    "notebook_count": 0,
+    "resource_count": 0,
+    "conversation_count": 0,
+    "generated_content_count": 0,
+    "recent_activity": []
+}
+
+
+==================================================
+ACTIVITY LOG
+==================================================
+
+Create a reusable activity logging service.
+
+Example:
+
+log_activity(
+    user_id,
+    action,
+    description,
+    metadata
+)
+
+Record important events such as:
+
+login
+notebook creation
+resource upload
+chat
+summary generation
+quiz generation
+flashcard generation
+
+
+==================================================
+API RESPONSE FORMAT
+==================================================
+
+Use a consistent response structure.
+
+Success:
+
+{
+    "success": true,
+    "message": "Operation successful",
+    "data": {}
+}
+
+Error:
+
+{
+    "success": false,
+    "message": "Something went wrong",
+    "data": null
+}
+
+
+==================================================
+ERROR HANDLING
+==================================================
+
+Handle:
+
+Invalid ObjectId
+Invalid file
+File too large
+Unsupported file type
+Notebook not found
+Resource not found
+Unauthorized access
+MongoDB failure
+Gemini API failure
+Gemini timeout
+Invalid request
+Authentication failure
+
+Use appropriate HTTP codes:
+
+200
+201
+400
+401
+403
+404
+422
+500
+
+
+==================================================
+SECURITY
+==================================================
+
+Implement:
+
+JWT authentication
+Password hashing
+Input validation
+File validation
+Notebook ownership validation
+Resource ownership validation
+Conversation ownership validation
+
+Never expose:
+
+Password hashes
+JWT secret
+Gemini API key
+Internal stack traces
+
+
+==================================================
+CORS
+==================================================
+
+Allow the Next.js frontend.
+
+Development frontend:
+
+http://localhost:3000
+
+Backend:
+
+http://localhost:8000
+
+Read allowed frontend origins from environment variables.
+
+
+==================================================
+FOLDER STRUCTURE
+==================================================
+
+Create:
+
+backend/
+│
+├── app/
+│   │
+│   ├── main.py
+│   │
+│   ├── core/
+│   │   ├── config.py
+│   │   ├── database.py
+│   │   ├── indexes.py
+│   │   └── security.py
+│   │
+│   ├── schemas/
+│   │   ├── user.py
+│   │   ├── auth.py
+│   │   ├── notebook.py
+│   │   ├── resource.py
+│   │   ├── conversation.py
+│   │   ├── message.py
+│   │   ├── chat.py
+│   │   ├── generated_content.py
+│   │   ├── prompt.py
+│   │   ├── settings.py
+│   │   └── activity.py
+│   │
+│   ├── routers/
+│   │   ├── auth.py
+│   │   ├── users.py
+│   │   ├── notebooks.py
+│   │   ├── resources.py
+│   │   ├── chat.py
+│   │   ├── conversations.py
+│   │   ├── ai.py
+│   │   ├── prompts.py
+│   │   ├── search.py
+│   │   ├── settings.py
+│   │   └── dashboard.py
+│   │
+│   ├── services/
+│   │   ├── gemini_service.py
+│   │   ├── chat_service.py
+│   │   ├── file_service.py
+│   │   ├── pdf_service.py
+│   │   ├── docx_service.py
+│   │   ├── youtube_service.py
+│   │   └── activity_service.py
+│   │
+│   ├── dependencies/
+│   │   └── auth.py
+│   │
+│   └── utils/
+│       ├── validators.py
+│       └── text_utils.py
+│
+├── uploads/
+│   ├── pdf/
+│   ├── documents/
+│   └── images/
+│
+├── tests/
+│   ├── test_auth.py
+│   ├── test_notebooks.py
+│   ├── test_resources.py
+│   ├── test_chat.py
+│   └── test_ai.py
+│
+├── .env
+├── .env.example
+├── .gitignore
+├── requirements.txt
+└── README.md
+
+
+==================================================
+PYDANTIC SCHEMAS
+==================================================
+
+Create Pydantic schemas for:
+
+UserCreate
+UserLogin
+UserResponse
+
+NotebookCreate
+NotebookUpdate
+NotebookResponse
+
+ResourceResponse
+
+ConversationCreate
+ConversationResponse
+
+MessageCreate
+MessageResponse
+
+ChatRequest
+ChatResponse
+
+GeneratedContentResponse
+
+PromptCreate
+PromptResponse
+
+UserSettingsUpdate
+UserSettingsResponse
+
+ActivityLogResponse
+
+Validate all input using Pydantic.
+
+
+==================================================
+MONGODB OBJECTID HANDLING
+==================================================
+
+MongoDB uses ObjectId.
+
+The API should accept string IDs.
+
+Convert string IDs safely into ObjectId.
+
+Create utility functions for:
+
+is_valid_object_id()
+
+to_object_id()
+
+Never allow invalid IDs to crash the application.
+
+
+==================================================
+FILE STORAGE
+==================================================
+
+During development use local storage.
+
+Structure:
+
+uploads/
+    pdf/
+    documents/
+    images/
+
+Generate unique filenames.
+
+Do not overwrite existing files.
+
+Validate:
+
+Extension
+MIME type
+Size
+
+Store path in MongoDB.
+
+
+==================================================
+RESOURCE PROCESSING WORKFLOW
+==================================================
+
+PDF:
+
+Upload
+↓
+Validate
+↓
+Save
+↓
+Extract text with PyMuPDF
+↓
+Clean text
+↓
+MongoDB
+
+DOCX:
+
+Upload
+↓
+Validate
+↓
+Save
+↓
+Extract text using python-docx
+↓
+MongoDB
+
+TXT:
+
+Upload
+↓
+Read
+↓
+Clean
+↓
+MongoDB
+
+IMAGE:
+
+Upload
+↓
+Validate using Pillow
+↓
+Save image
+↓
+Gemini can process image when requested
+
+
+==================================================
+GEMINI RESPONSE FORMAT
+==================================================
+
+For summary/quiz/flashcards/FAQ/study notes, request structured JSON output from Gemini when supported.
+
+Validate the generated response before storing it.
+
+If Gemini returns invalid structured data:
+
+Return a clear error.
+
+Do not silently store broken JSON.
+
+
+==================================================
+GEMINI API SECURITY
+==================================================
+
+The Gemini API key must only exist in:
+
+.env
+
+Never put the Gemini API key in:
+
+Next.js
+React
+TypeScript
+Frontend environment variables
+
+All Gemini requests must go through FastAPI.
+
+
+==================================================
+TESTING
+==================================================
+
+Use Pytest.
+
+Test:
+
+User registration
+Duplicate email
+Login
+Invalid password
+JWT authentication
+Notebook creation
+Notebook ownership
+Notebook deletion
+Resource upload
+PDF extraction
+DOCX extraction
+Chat
+Summary
+Quiz
+Flashcards
+FAQ
+Search
+Settings
+
+Use mocked Gemini responses in tests.
+
+Do not call the real Gemini API for every automated test.
+
+
+==================================================
+SWAGGER DOCUMENTATION
+==================================================
+
+FastAPI must expose:
+
+/docs
+
+/redoc
+
+Every endpoint should have:
+
+Description
+Request model
+Response model
+Authentication requirements
+Possible error responses
+
+
+==================================================
+README
+==================================================
+
+Generate a complete README containing:
+
+Project description
+Features
+Technology stack
+Requirements
+MongoDB setup
+Gemini API setup
+Environment variables
+Installation
+Running the backend
+API documentation
+Project structure
+Testing
+Common errors
+
+
+==================================================
+REQUIREMENTS.TXT
+==================================================
+
+Include the necessary packages for:
+
+FastAPI
+Uvicorn
+PyMongo
+Pydantic
+python-dotenv
+PyJWT
+Passlib/Bcrypt
+Google Gemini SDK
+PyMuPDF
+python-docx
+Pillow
+httpx
+python-multipart
+Pytest
+
+Use compatible stable versions.
+
+
+==================================================
+MAIN SYSTEM WORKFLOW
+==================================================
+
+The complete system must support:
+
+User
+↓
+Register/Login
+↓
+Dashboard
+↓
+Create Notebook
+↓
+Upload PDF/DOCX/TXT/Image
+↓
+Add YouTube URL
+↓
+Extract readable content
+↓
+Store resource metadata + content in MongoDB
+↓
+Open AI Workspace
+↓
+Select resources
+↓
+Ask question
+↓
+FastAPI retrieves selected resource content
+↓
+FastAPI creates Gemini prompt
+↓
+Gemini API
+↓
+AI response
+↓
+Save user message
+↓
+Save AI message
+↓
+Return response
+↓
+Frontend displays answer
+
+
+==================================================
+LEARNING CONTENT WORKFLOW
+==================================================
+
+Resource
+↓
+User selects action
+
+Summary
+OR
+Quiz
+OR
+Flashcards
+OR
+FAQ
+OR
+Study Notes
+
+↓
+
+FastAPI retrieves resource content
+
+↓
+
+Creates Gemini prompt
+
+↓
+
+Gemini
+
+↓
+
+Structured response
+
+↓
+
+Save in generated_content
+
+↓
+
+Return to frontend
+
+
+==================================================
+AI STUDIO WORKFLOW
+==================================================
+
+User opens AI Studio
+
+↓
+
+Enters prompt
+
+↓
+
+Selects Gemini model
+
+↓
+
+Sets temperature
+
+↓
+
+Sets maximum output tokens
+
+↓
+
+Clicks Generate
+
+↓
+
+FastAPI
+
+↓
+
+Gemini
+
+↓
+
+Response
+
+↓
+
+Save prompt + response in MongoDB
+
+↓
+
+Display response
+
+
+==================================================
+IMPORTANT ARCHITECTURAL PRINCIPLE
+==================================================
+
+This application is NOT a complex AI research platform.
+
+It is a simple interactive AI knowledge assistant.
+
+The intelligence comes from Gemini.
+
+MongoDB stores:
+
+Users
+Notebooks
+Resources
+Extracted content
+Conversations
+Messages
+Generated learning material
+Prompts
+Settings
+Activity
+
+FastAPI handles:
+
+Authentication
+Business logic
+File processing
+MongoDB operations
+Prompt creation
+Gemini communication
+API responses
+
+Next.js handles:
+
+User interface
+Chat interface
+Notebook interface
+Resource interface
+AI Studio interface
+
+
+==================================================
+FINAL REQUIREMENT
+==================================================
+
+Generate actual functional backend code.
+
+Do not provide only architecture.
+
+Do not use placeholder comments for core functionality.
+
+Create all required files.
+
+Ensure imports work correctly.
+
+Ensure routers are registered in main.py.
+
+Ensure MongoDB connection works.
+
+Ensure indexes are created.
+
+Ensure authentication works.
+
+Ensure file uploads work.
+
+Ensure extracted text is stored.
+
+Ensure Gemini integration works.
+
+Ensure chat history is stored.
+
+Ensure generated content is stored.
+
+Ensure ownership checks are implemented.
+
+Ensure the backend can connect directly to the previously created Next.js + TypeScript frontend using Axios.
+
+The final backend must be runnable with:
+
+uvicorn app.main:app --reload
+
+and Swagger documentation must be available at:
+
+/docs
